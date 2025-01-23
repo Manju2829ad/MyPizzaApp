@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: MyPizza
+  server:
+    servlet:
+      session:
+        cookie:
+          same-site: strict
+    port: 5000
+  datasource:
+    url: jdbc:mysql://database-1.cnsoc2kia04g.eu-north-1.rds.amazonaws.com:3306/my_pizza_app
+    username: admin
+    password: 54321atManju
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hikari:
+      maximum-pool-size: 10
+  logging:
+    level:
+      org.springframework: DEBUG
+      org.hibernate: DEBUG
+      com.basepackage: TRACE
+      org.hibernate.SQL: DEBUG
+      org.hibernate.type.descriptor.sql: TRACE
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+  mvc:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+auth0:
+  jwk-set-uri: https://dev-4c60r76ocjd6z7dk.us.auth0.com/.well-known/jwks.json
+
+# Security configuration commented out
+#spring:
+#  security:
+#    user:
+#      name: Manju
+#      password: 5248145
