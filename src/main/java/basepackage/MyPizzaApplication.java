@@ -13,6 +13,8 @@ public class MyPizzaApplication {
 		SpringApplication.run(MyPizzaApplication.class, args);
 
 	
+		System.out.println("DB URL: " + System.getenv("RENDER_DB_URL"));
+	    System.out.println("DB Username: " + System.getenv("DB_USER"));
 	           System.out.println("Hello");
 
 	}
