@@ -50,4 +50,11 @@ node_modules/
 dist/
 build/
 
+<<<<<<< HEAD
 
+=======
+# Ignore application properties
+src/main/resources/application.properties
+src/main/resources/application-local.properties
+src/main/java/basepackage/SecretKeyGenerator.java
+>>>>>>> 6705f8e (d)
