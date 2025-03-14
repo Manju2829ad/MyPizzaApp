@@ -45,13 +45,26 @@ public class UserController {
     	System.out.println(userDTO);
         String successMessage = "User created successfully";
         String failureMessage = "User creation failed";
+        String userExists= "User already exists please login with your email or mobile number ";
 
         try {
             // Save the user
-            String result = userService.saveUser(userDTO);
+        	
+        	
+        	 boolean result= userService.verifyIfUserExist(userDTO.getEmail(), userDTO.getMobileNo());
+        	 
+        	   if(result) {
+        		   
+        		   return ResponseEntity.status(HttpStatus.CONFLICT).body(userExists);
+        		   
+        	   } 
+        	   
+            String savedResult = userService.saveUser(userDTO);
 
+            
+            
             // If save is successful
-            if ("ok".equalsIgnoreCase(result)) {
+            if ("ok".equalsIgnoreCase(savedResult)) {
                 // Generate a token using the user's email
 //                String success = jwtTokenUtil.generateTokenUsingEmail(userDTO.getEmail());
             	
@@ -108,6 +121,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    
+    
     
     
 

@@ -18,6 +18,7 @@ import basepackage.model.Order;
 import basepackage.model.User;
 import basepackage.repo.UserRepository;
 
+import org.glassfish.jaxb.core.annotation.OverrideAnnotationOf;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,6 +193,36 @@ public UserDTO   userToDTO(User user) {
 		  return dto;
 	}
 		
+	
+	@Override
+	
+	public boolean  verifyIfUserExist(String email ,String mobileNumber) {
+		
+		
+   
+		if(email.isBlank()|| mobileNumber.isBlank()) {
+			
+			
+			return false;
+		}
+		
+		
+		
+//		if(userRepo.findByMobileNo(mobileNumber).equals(mobileNumber)) {
+//			
+//			return  true;
+//			
+//		} else if(userRepo.findByEmail(email).equals(email)){
+//			
+//			return true;
+//		}
+//		
+		
+		return userRepo.findByMobileNo(mobileNumber).isPresent() ||userRepo.findByEmail(email).isPresent();
+		
+		
+		
+	}
 
 
 	@Autowired

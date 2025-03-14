@@ -15,6 +15,6 @@ public interface UserService {
 	public  UserDTO findById(Long id);
 	
 	public String updateUser(UserDTO userDTO);
-        
+	public boolean  verifyIfUserExist(String email ,String mobileNumber);
         
 }
