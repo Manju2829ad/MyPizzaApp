@@ -16,6 +16,7 @@ import basepackage.model.User;
 import basepackage.service.LoginService;
 import basepackage.util.JwtTokenUtil;
 
+
 @RestController
 @RequestMapping("/api/user")
 public class LoginController {
@@ -24,13 +25,11 @@ public class LoginController {
     private LoginService loginService;
 
     
-    private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private   JwtTokenUtil jwtTokenUtil;
 
 
-    public LoginController(){
-
-        this.jwtTokenUtil=new JwtTokenUtil();
-    }
 
     
     

@@ -1,6 +1,5 @@
 package basepackage.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,92 +11,44 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import jakarta.annotation.PostConstruct;
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.KeyFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
+import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Define path to your public key (adjust to your actual path)
-  
-
-    @Value("${public.key.path}")
-    private String publicKeyPath;
-
-    @Value("${private.key.path}")
-    private String privateKeyPath;
-
-
-    private static String PUBLIC_KEY_PATH;
-    private static String PRIVATE_KEY_PATH;
-       
-    @PostConstruct
-    public void init(){
-
-        PUBLIC_KEY_PATH = publicKeyPath;
-        PRIVATE_KEY_PATH = privateKeyPath;
-
-
-    }
-
-
-    // = "C:\\Users\\Manju\\MyProject\\MyPizza\\src\\main\\resources\\publicKey.pem";
+    private static final String SECRET_KEY = "l4G5ZEErTqvOxXr3A+Ez8vZvl49/SwMCc8SI1f0xQEE="; // Same as in JwtTokenUtil
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors()
             .and()
-            .csrf(csrf -> csrf.disable())  
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/user/login", "/api/users/create", "/api/pizza/get/*").permitAll()  // Public endpoints
-                .anyRequest().authenticated()  // Require authentication for all other requests
+                .requestMatchers("/api/user/login", "/api/users/create", "/api/pizza/get/*").permitAll()
+                .anyRequest().authenticated()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> {
-					try {
-						jwt.decoder(jwtDecoder());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				})  // Use custom JWT decoder
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management
-            );
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()))) 
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
 
-    // Custom JwtDecoder to verify JWTs using the RSA public key
+    // ✅ JWT Decoder for HMAC256 Secret Key
     @Bean
-    public JwtDecoder jwtDecoder() throws Exception {
-        String publicKeyPEM = new String(Files.readAllBytes(Paths.get(PUBLIC_KEY_PATH)))
-                .replace("-----BEGIN PUBLIC KEY-----", "")
-                .replace("-----END PUBLIC KEY-----", "")
-                .replaceAll("\\s+", "");  // Clean up the key string
-
-        byte[] keyBytes = Base64.getDecoder().decode(publicKeyPEM);  // Decode Base64 public key
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        
-        // Cast to RSAPublicKey
-        RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(spec);
-
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();  // Build JwtDecoder with the RSA public key
+    public JwtDecoder jwtDecoder() {
+        byte[] secretKeyBytes = SECRET_KEY.getBytes();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKeyBytes, "HmacSHA256");
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec).build();
     }
 
-    // Bean for password encoding (using BCrypt)
+    
+    // ✅ Password Encoder (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // Return BCryptPasswordEncoder bean
+        return new BCryptPasswordEncoder();
     }
 }
