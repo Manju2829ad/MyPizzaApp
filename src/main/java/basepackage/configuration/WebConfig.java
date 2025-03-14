@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
                 .allowedOrigins("http://localhost:5173", // Local frontend URL
-"https://306e-2402-8100-25c1-bf9b-a46a-6d34-e064-270f.ngrok-free.app") // Frontend URL
+"https://main.d23tt5qyk8knoh.amplifyapp.com") // Frontend URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Content-Type", "Authorization");
     }
