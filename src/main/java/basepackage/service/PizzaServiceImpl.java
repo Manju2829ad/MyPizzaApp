@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class PizzaServiceImpl implements PizzaService {
 	
 	
 	@Override
+	@Cacheable(value="pizza",key="#category")
 	public  List<PizzaDTO> getPizzaByCategory(String category) {
 		
 		System.out.println(category);
@@ -45,7 +47,7 @@ List<PizzaDTO> pizzaDTO=new ArrayList();
 			
 			throw new HibernateException("unable to fetch pizza"+category,e);
 		}
-		
+		System.out.println(pizzaDTO);
 		return pizzaDTO;
 	}
 
