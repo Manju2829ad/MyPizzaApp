@@ -57,12 +57,13 @@ public class Pizza {
     public String getImage() {
         if (image != null) {
         	
-        	if(image.startsWith("http")) {
+//        	if(image.startsWith("http")) {
         		
-        		return image;
+//        		return image;
+        	       return "/images/" + image;
         	}
-            return "/images/" + image;
-        }
+     
+        
         return null;
     }
     
