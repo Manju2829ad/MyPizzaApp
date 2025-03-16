@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import basepackage.model.Pizza;
 import basepackage.repo.PizzaRepository;
 
 
+
+@EnableCaching
 @Service
 public class PizzaServiceImpl implements PizzaService {
 

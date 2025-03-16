@@ -3,6 +3,7 @@ package basepackage.service;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import basepackage.model.User;
 import basepackage.repo.LoginRepository;
 import basepackage.repo.UserRepository;
 
+
+@EnableCaching
 @Service
 public class LoginServiceImpl implements LoginService {
 

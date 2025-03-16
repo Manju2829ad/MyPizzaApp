@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import basepackage.dto.PizzaDTO;
@@ -16,11 +18,11 @@ import basepackage.model.Price;
 import basepackage.repo.PizzaRepository;
 import basepackage.repo.PriceRepository;
 
-
+@EnableCaching
 @Service
 public class PriceServiceImpl   implements PriceService{
 
-	
+
 	@Autowired
 	private PriceRepository priceRepo;
 	
@@ -29,6 +31,12 @@ public class PriceServiceImpl   implements PriceService{
 
 	
 	
+	@Cacheable(
+			
+			cacheNames="id",
+			key="pizzaId"
+			
+			)
 	@Override
 	public List<PriceDTO> findByPizzaId(Long pizzaId) {
 

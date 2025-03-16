@@ -131,6 +131,11 @@
             <scope>test</scope>
         </dependency>
 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-cache</artifactId>
+</dependency>
+
 
 <dependency>
     <groupId>com.google.firebase</groupId>
@@ -138,7 +143,11 @@
     <version>9.2.0</version>
 </dependency>
 
-
+<dependency>
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <artifactId>caffeine</artifactId>
+    <version>3.1.8</version> <!-- Check for the latest version -->
+</dependency>
 
 
     </dependencies>
