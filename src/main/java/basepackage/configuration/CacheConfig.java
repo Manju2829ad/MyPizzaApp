@@ -16,7 +16,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 public class CacheConfig {
 	@Bean
     public CaffeineCacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("pizza", "pizzaId");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("pizza", "price");
         cacheManager.setCaffeine(Caffeine.newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES) // Cache entries expire after 30 minutes
             .maximumSize(1000));                    // Max 1000 entries
