@@ -28,7 +28,7 @@ public class SecurityConfig {
             .and()
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/user/login", "/api/users/create", "/api/pizza/get/*").permitAll()
+                .requestMatchers("/api/user/login", "/api/users/create", "/api/pizza/get/*","/api/price/get/*","/images/*").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()))) 

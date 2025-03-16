@@ -31,7 +31,7 @@ public class PriceServiceImpl   implements PriceService{
 
 	
 	
-	/* @Cacheable(value="price",key="#pizzaId") */
+	 @Cacheable(value="price",key="#pizzaId") 
 	@Override
 	public List<PriceDTO> findByPizzaId(Long pizzaId) {
 

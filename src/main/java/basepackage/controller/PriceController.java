@@ -19,7 +19,7 @@ import basepackage.service.PriceService;
 import jakarta.websocket.server.PathParam;
 
 @RestController
-@RequestMapping("api/price/")
+@RequestMapping("/api/price/")
 public class PriceController {
 
 	
@@ -34,6 +34,9 @@ public class PriceController {
 		try {
 			
 			         List<PriceDTO> priceDTO=priceService.findByPizzaId(pizzaId);
+			         
+			         
+			         System.out.println(priceDTO);
 			         
 			         return ResponseEntity.ok(priceDTO);
 			         
