@@ -1,6 +1,18 @@
 package basepackage.model;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,6 +43,8 @@ public class Pizza {
     private String sizes;
     private String crust;
 
+    
+     
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isVeg;
 
@@ -54,21 +68,56 @@ public class Pizza {
     }
     
    
+
     public String getImage() {
         if (image != null) {
-        	
-//        	if(image.startsWith("http")) {
-        		
-//        		return image;
-        	       return "/images/" + image;
-        	}
-     
-        
+            return "/images/" + image;  // ✅ Return path only
+        }
         return null;
     }
+
     
-    
-    
-    
+//    {
+//    	
+//    	ImageDisplay();
+//    	System.out.println("Method called ");
+//    }
+//    
+//    public class ImageDisplay {
+//        public static void main(String[] args) {
+//            try {
+//                File file = new File("src/main/resources/static/images/test.jpg");  // Update with actual image path
+//                System.out.println("Loading: " + file.getAbsolutePath());
+//
+//                if (!file.exists()) {
+//                    System.out.println("❌ ERROR: File does not exist!");
+//                    return;
+//                }
+//
+//                BufferedImage image = ImageIO.read(file);
+//                if (image == null) {
+//                    System.out.println("❌ ERROR: Image could not be read!");
+//                    return;
+//                }
+//
+//                // Convert to Base64 String
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                ImageIO.write(image, "jpg", baos);
+//                String base64Image = Base64.getEncoder().encodeToString(baos.toByteArray());
+//
+//                // Print Base64 String (Can be copied and viewed online)
+//                System.out.println("Base64 Image Data: " + base64Image);
+//
+//            } catch (IOException e) {
+//                System.out.println("❌ ERROR: Exception while loading image!");
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//	private void ImageDisplay() {
+//		// TODO Auto-generated method stub
+//		
+//	}
     
 }
