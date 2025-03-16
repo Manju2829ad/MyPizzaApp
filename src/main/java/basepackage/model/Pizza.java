@@ -1,13 +1,18 @@
 package basepackage.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +26,7 @@ public class Pizza {
 
     private String name;
     private String category;
-    private String image; // Store filename only (e.g., "pizza.jpg")
+    private String image; // Updated to String for image URL or path
     private String description;
     private String sizes;
     private String crust;
@@ -29,44 +34,35 @@ public class Pizza {
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isVeg;
 
-    public String getImagePath() {
-        return "src/main/resources/static/images/" + image; // ✅ File path
-    }
+    @JsonManagedReference(value = "toppings-pizza")  // Starts serialization for Toppings associated with Pizza
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Topping> toppings;
 
-//    public void displayImage() {
-//        if (image == null || image.isEmpty()) {
-//            System.out.println("❌ No image available.");
-//            return;
-//        }
-//
-//        File file = new File(getImagePath()); // ✅ Get the image path
-//        System.out.println("Loading: " + file.getAbsolutePath());
-//
-//        if (!file.exists()) {
-//            System.out.println("❌ ERROR: File does not exist!");
-//            return;
-//        }
-//
-//        try {
-//            BufferedImage img = ImageIO.read(file);
-//            if (img == null) {
-//                System.out.println("❌ ERROR: Image could not be read!");
-//                return;
-//            }
-//
-//            // ✅ Show image in a JFrame
-//            JFrame frame = new JFrame("Pizza Image Viewer");
-//            JLabel label = new JLabel(new ImageIcon(img));
-//            frame.add(label);
-//            frame.pack();
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            frame.setVisible(true);
-//
-//        } catch (IOException e) {
-//            System.out.println("❌ ERROR: Exception while loading image!");
-//            e.printStackTrace();
-//        }
-//    }
+
+    @JsonManagedReference(value = "prices-pizza")  // Starts serialization for Prices associated with Pizza
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL)
+    private List<Price> prices;
+    
+    
+    @Override
+    public String toString() {
+        return "Pizza{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               // Exclude price list or use a simplified format here
+               '}';
+    }
+    
+   
+    public String getImage() {
+        if (image != null) {
+            return "/images/" + image;
+        }
+        return null;
+    }
+    
+    
+    
     
     
 }
